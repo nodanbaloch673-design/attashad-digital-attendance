@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b2d">
+  <title>Attashad Digital Attendance</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Attashad Digital Attendance home">
+      <img class="college-logo" src="college-logo.jpeg" alt="Government Atta Shad Degree College Turbat logo">
+      <span><strong>ATTA SHAD COLLEGE</strong><small>DIGITAL ATTENDANCE</small></span>
+    </a>
+    <section class="featured-student" aria-label="Featured student">
+      <div class="student-avatar">SR</div>
+      <div class="featured-student-info">
+        <strong>Sameer Rafeeq</strong>
+        <span>Roll No: 2856 · ICS</span>
+        <small>Session 2026–2028</small>
+      </div>
+    </section>
+    <div class="top-actions">
+      <span class="demo-pill"><span></span> DEMO MODE</span>
+      <button id="resetDemo" class="btn btn-quiet" type="button">Reset demo</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="college-label">ATTA SHAD COLLEGE<br><span>TURBAT · BALOCHISTAN</span></div>
+      <nav aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="attendance"><span>✓</span> Take attendance</button>
+        <button class="nav-item" data-view="students"><span>♙</span> Students</button>
+        <button class="nav-item" data-view="reports"><span>▤</span> Reports</button>
+      </nav>
+      <div class="sidebar-note"><span class="note-icon">i</span><div><strong>Exhibition prototype</strong><p>This demo uses sample records saved only in this browser.</p></div></div>
+      <div class="sidebar-bottom"><span class="avatar">AD</span><div><strong>Demo administrator</strong><small>Local preview only</small></div></div>
+    </aside>
+
+    <main class="main">
+      <section class="page-heading">
+        <div><p class="eyebrow">ATTENDANCE MANAGEMENT</p><h1 id="pageTitle">Dashboard</h1><p class="subheading" id="pageSubtitle">A clear view of your class attendance.</p></div>
+        <div class="date-chip"><span class="calendar-icon">▦</span><span id="todayLabel">Today</span></div>
+      </section>
+
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <section class="view" id="view-dashboard">
+        <div class="welcome-card">
+          <div class="welcome-copy"><span class="welcome-tag">ATTA SHAD COLLEGE · TURBAT</span><h2>Attendance, made simple.</h2><p>Manage the merged ICS and Pre-Engineering class from one place.</p><button class="btn btn-light" data-go="attendance" type="button">Take attendance <span>→</span></button></div>
+          <div class="welcome-art" aria-hidden="true"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="art-card"><div class="art-check">✓</div><div class="art-line long"></div><div class="art-line"></div><div class="art-line short"></div></div><div class="art-dot dot-one"></div><div class="art-dot dot-two"></div></div>
+        </div>
+        <article class="panel scanner-panel">
+          <div class="panel-heading">
+            <div><h3>QR code scanner</h3><p>Scan a QR code using your device camera. Camera access requires permission.</p></div>
+            <span class="panel-icon">▦</span>
+          </div>
+          <div class="scanner-layout">
+            <div class="scanner-camera-wrap">
+              <div id="qr-reader" aria-label="QR code camera scanning area"></div>
+              <div id="scannerPlaceholder" class="scanner-placeholder">
+                <div class="scanner-frame"><span></span><span></span><span></span><span></span><div class="scanner-qr">▦</div></div>
+                <strong>Camera scanner is stopped</strong>
+                <small>Press “Start scanner” and allow camera access.</small>
+              </div>
+            </div>
+            <div class="scanner-side">
+              <span class="scanner-live-pill"><span></span> CAMERA SCANNER</span>
+              <h4>Scan a QR code</h4>
+              <p>Place the QR code inside the camera frame. The scanned text will appear below.</p>
+              <div class="scanner-actions">
+                <button class="btn btn-primary" id="startScanner" type="button">Start scanner</button>
+                <button class="btn btn-outline" id="stopScanner" type="button" disabled>Stop</button>
+              </div>
+              <div id="scannerStatus" class="scanner-status" role="status" aria-live="polite">Scanner is not running.</div>
+              <div id="scanResult" class="scan-result" hidden><strong>QR code detected</strong><code id="scanText"></code><small>This demo only reads the QR content. It does not mark attendance from a QR scan.</small></div>
+            </div>
+          </div>
+        </article>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total students</span><span class="stat-icon green">♙</span></div><strong id="totalStudents">5</strong><small>Sample exhibition records</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Present today</span><span class="stat-icon blue">✓</span></div><strong id="presentToday">0</strong><small id="presentNote">Across saved sessions</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Absent today</span><span class="stat-icon orange">—</span></div><strong id="absentToday">0</strong><small>Across saved sessions</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Subjects</span><span class="stat-icon purple">▤</span></div><strong>7</strong><small>Configured for the demo</small></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Quick attendance</h3><p>Start a subject attendance session.</p></div><span class="panel-icon">✓</span></div>
+            <form id="quickForm" class="quick-form">
+              <label>Subject<select id="quickSubject"></select></label>
+              <label>Attendance date<input id="quickDate" type="date" required></label>
+              <button class="btn btn-primary" type="submit">Open attendance <span>→</span></button>
+            </form>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Class overview</h3><p>Merged class departments</p></div><span class="panel-icon">♙</span></div>
+            <div class="department-row"><div class="department-badge">IC</div><div class="department-info"><strong>ICS</strong><small>Intermediate in Computer Science</small></div><strong id="icsCount">3</strong></div>
+            <div class="department-row"><div class="department-badge peach">PE</div><div class="department-info"><strong>Pre-Engineering</strong><small>Intermediate Pre-Engineering</small></div><strong id="preCount">2</strong></div>
+            <p class="muted-footnote">Student counts are based on the clearly labelled sample data.</p>
+          </article>
+        </div>
+        <article class="panel recent-panel"><div class="panel-heading"><div><h3>Recent attendance sessions</h3><p>Your saved demo records appear here.</p></div><button class="text-button" data-go="reports" type="button">View reports →</button></div><div id="recentSessions"></div></article>
+      </section>
+
+      <section class="view" id="view-attendance" hidden>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Start an attendance session</h3><p>Select the subject and the date the class actually took place.</p></div><span class="panel-icon">✓</span></div>
+          <form id="sessionForm" class="session-controls">
+            <label>Subject<select id="subjectSelect" required></select></label>
+            <label>Attendance date<input id="attendanceDate" type="date" required></label>
+            <label>Session / period <input id="sessionName" type="text" placeholder="e.g. Period 1 (optional)" maxlength="60"></label>
+            <button class="btn btn-primary" type="submit">Load students</button>
+          </form>
+        </article>
+        <article class="panel" id="attendancePanel">
+          <div class="empty-state"><div class="empty-icon">✓</div><h3>No session selected</h3><p>Choose a subject and attendance date, then select “Load students”.</p></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-students" hidden>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Student directory</h3><p>Sample students for testing the interface. Replace these with official records only when ready.</p></div><button class="btn btn-primary" id="addStudentBtn" type="button">＋ Add student</button></div>
+          <div class="toolbar"><label class="search-box"><span>⌕</span><input id="studentSearch" type="search" placeholder="Search name or official roll number"></label><select id="departmentFilter" aria-label="Filter by department"><option value="all">All departments</option><option value="ICS">ICS</option><option value="Pre-Engineering">Pre-Engineering</option></select></div>
+          <div class="table-wrap"><table><thead><tr><th>Official roll number</th><th>Student name</th><th>Department</th><th>Record type</th><th>Action</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+          <p class="table-footnote">Sample roll numbers beginning with “DEMO-” are not official college roll numbers.</p>
+        </article>
+      </section>
+
+      <section class="view" id="view-reports" hidden>
+        <article class="panel">
+          <div class="panel-heading"><div><h3>Attendance reports</h3><p>Review saved demo sessions. Percentages are calculated only from saved session records.</p></div><button class="btn btn-outline" id="exportCsv" type="button">↓ Export CSV</button></div>
+          <div class="toolbar"><label>Subject<select id="reportSubject"><option value="all">All subjects</option></select></label><label>Attendance date<input id="reportDate" type="date"></label><button class="btn btn-outline" id="clearReportFilters" type="button">Clear filters</button></div>
+          <div class="report-summary" id="reportSummary"></div>
+          <div class="table-wrap"><table><thead><tr><th>Attendance date</th><th>Subject</th><th>Session</th><th>Present</th><th>Absent</th><th>Not marked</th><th>Entry time</th><th>Action</th></tr></thead><tbody id="reportsBody"></tbody></table></div>
+          <div id="reportEmpty" class="empty-state compact" hidden><p>No saved sessions match these filters.</p></div>
+        </article>
+      </section>
+
+      <footer><span>Attashad Digital Attendance</span><span>Exhibition demo · Not for official attendance</span></footer>
+    </main>
+  </div>
+
+  <dialog id="studentDialog">
+    <form id="studentForm" method="dialog" class="dialog-form">
+      <div class="dialog-heading"><div><p class="eyebrow">STUDENT DIRECTORY</p><h2 id="studentDialogTitle">Add sample student</h2></div><button type="button" class="close-dialog" id="closeStudentDialog" aria-label="Close">×</button></div>
+      <p class="dialog-note">For this demo, use a sample roll number such as DEMO-006. Real college records can be added later.</p>
+      <label>Roll number<input id="newRoll" required maxlength="40" placeholder="e.g. DEMO-006"></label>
+      <label>Student name<input id="newName" required maxlength="100" placeholder="Enter student name"></label>
+      <label>Department<select id="newDepartment" required><option value="ICS">ICS</option><option value="Pre-Engineering">Pre-Engineering</option></select></label>
+      <input id="editingRoll" type="hidden">
+      <div class="dialog-actions"><button class="btn btn-outline" type="button" id="cancelStudent">Cancel</button><button class="btn btn-primary" type="submit">Save student</button></div>
+    </form>
+  </dialog>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
